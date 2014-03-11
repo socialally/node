@@ -170,7 +170,14 @@ dtrace.on('exit', function (code) {
     console.log('mdb stderr: ' + data);
   });
 
-  mdb.stdin.write('::load v8.so\n');
+  var mod = util.format('::load %s\n',
+                        path.join(__dirname,
+                                  '..',
+                                  '..',
+                                  'out',
+                                  'Release',
+                                  'mdb_v8.so'));
+  mdb.stdin.write(mod);
   mdb.stdin.write('::jsstack -v\n');
   mdb.stdin.end();
 });
